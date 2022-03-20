@@ -40,9 +40,20 @@ def create(store: schemas.StoreCreate, db: Session = Depends(get_db)):
     return crud.create_store(db=db, store=store)
 
 
-@app.get("/stores/", response_model=list[schemas.Store])
-def index(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, search: bool = False, db: Session = Depends(get_db)):
+@app.get("/search", response_model=schemas.Store)
+def search(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, search: bool = False, db: Session = Depends(get_db)):
     stores = crud.get_stores(db, skip=skip, limit=limit, latitude=lat, longitude=lon, search=search)
     if stores is None:
         raise HTTPException(status_code=404, detail="No stores found")
-    return stores
+
+    if stores[0] is None:
+        raise HTTPException(status_code=404, detail="No nearby stores found")
+
+    closest_store = stores[0]
+    closest_euclidian = (closest_store.latitude - lat)**2 + (closest_store.longitude - lon)**2
+    for store in stores:
+        if (store.latitude - lat)**2 + (store.longitude -lon)**2 > closest_euclidian:
+            closest_store = stores[0]
+            closest_euclidian = (closest_store.latitude - lat)**2 + (closest_store.longitude - lon)**2
+
+    return closest_store
