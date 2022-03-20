@@ -13,7 +13,7 @@ services:
       - DB_LOG=False
     command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80" ]
 
-  inventory-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of store data
+  inventory-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of inventory data
     build:
       context: ./inventory_service
     depends_on:

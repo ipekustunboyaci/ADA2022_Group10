@@ -16,23 +16,10 @@ def get_db():
         db.close()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 @app.get('/stores/seed', response_model=list[schemas.Store])
 def seed(db: Session = Depends(get_db)):
     stores = [db_seeder.create_store(db) for x in range (20)]
     return stores
-
-
-@app.get("/stores/{store_id}", response_model=schemas.Store)
-def view(store_id: int, db: Session = Depends(get_db)):
-    db_store = crud.get_store(db, store_id=store_id)
-    if db_store is None:
-        raise HTTPException(status_code=404, detail="Store not found")
-    return db_store
 
 
 @app.post("/stores/", response_model=schemas.Store)
@@ -41,19 +28,19 @@ def create(store: schemas.StoreCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/search", response_model=schemas.Store)
-def search(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, search: bool = False, db: Session = Depends(get_db)):
-    stores = crud.get_stores(db, skip=skip, limit=limit, latitude=lat, longitude=lon, search=search)
+def search(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, db: Session = Depends(get_db)):
+    stores = crud.get_stores(db, skip=skip, limit=limit, latitude=lat, longitude=lon)
     if stores is None:
         raise HTTPException(status_code=404, detail="No stores found")
 
-    if stores[0] is None:
-        raise HTTPException(status_code=404, detail="No nearby stores found")
-
-    closest_store = stores[0]
-    closest_euclidian = (closest_store.latitude - lat)**2 + (closest_store.longitude - lon)**2
+    closest_store = None
+    closest_euclidian = 5000.00
     for store in stores:
-        if (store.latitude - lat)**2 + (store.longitude -lon)**2 > closest_euclidian:
-            closest_store = stores[0]
+        if (store.latitude - lat)**2 + (store.longitude -lon)**2 < closest_euclidian:
+            closest_store = store
             closest_euclidian = (closest_store.latitude - lat)**2 + (closest_store.longitude - lon)**2
 
-    return closest_store
+    if closest_store is None:
+        raise HTTPException(status_code=404, detail="No nearby store found")
+    else:
+        return closest_store

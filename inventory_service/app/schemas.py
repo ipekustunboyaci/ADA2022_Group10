@@ -5,6 +5,7 @@ from datetime import datetime
 
 class ItemBase(BaseModel):
     reservation: datetime
+    product_id: int
 
 
 class ItemCreate(ItemBase):

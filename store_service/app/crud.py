@@ -3,10 +3,6 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 
-def get_store(db: Session, store_id: int):
-    return db.query(models.Store).filter(models.Store.id == store_id).first()
-
-
 def get_stores(db: Session, skip: int = 0, limit: int = 100, longitude: float = 5.000000, latitude: float = 50.000000, search: bool = False):
     if search:
         lat = [latitude - 0.01, latitude + 0.01]

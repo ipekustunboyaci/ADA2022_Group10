@@ -23,7 +23,6 @@ class StoreBase(BaseModel):
     description: Optional[str] = None
     latitude: float
     longitude: float
-    inventory: list[Item] = []
 
 
 class StoreCreate(StoreBase):
