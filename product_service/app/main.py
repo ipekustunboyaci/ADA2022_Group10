@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
+from . import crud, models, schemas, db_seeder
 from .db import SessionLocal, engine
 
 app = FastAPI()
@@ -19,6 +19,12 @@ def get_db():
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+
+@app.get('/products/seed', response_model=list[schemas.Product])
+def seed(db: Session = Depends(get_db)):
+    products = [db_seeder.create_product(db) for x in range (20)]
+    return products
 
 
 @app.get("/products/{product_id}", response_model=schemas.Product)

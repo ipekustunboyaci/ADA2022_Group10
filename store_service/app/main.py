@@ -43,4 +43,6 @@ def create(store: schemas.StoreCreate, db: Session = Depends(get_db)):
 @app.get("/stores/", response_model=list[schemas.Store])
 def index(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, search: bool = False, db: Session = Depends(get_db)):
     stores = crud.get_stores(db, skip=skip, limit=limit, latitude=lat, longitude=lon, search=search)
+    if stores is None:
+        raise HTTPException(status_code=404, detail="No stores found")
     return stores

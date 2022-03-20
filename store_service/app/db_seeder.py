@@ -14,6 +14,15 @@ def create_store(db: Session):
         latitude=lat,
         longitude=lon
     )
+
+    for x in range(fake.random_int(min = 20, max=300)):
+        db_store.inventory.append(
+            models.Item(
+                reservation=fake.date_time_this_month(),
+                product_id=fake.random_int(min=0, max=19)
+            )
+        )
+
     db.add(db_store)
     db.commit()
     db.refresh(db_store)
