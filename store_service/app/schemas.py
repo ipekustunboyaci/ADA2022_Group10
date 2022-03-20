@@ -5,6 +5,8 @@ from pydantic import BaseModel
 class StoreBase(BaseModel):
     name: str
     description: Optional[str] = None
+    latitude: float
+    longitude: float
 
 
 class StoreCreate(StoreBase):
