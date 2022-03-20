@@ -20,6 +20,7 @@ def get_db():
 def read_root():
     return {"Hello": "World"}
 
+
 @app.get('/stores/seed', response_model=list[schemas.Store])
 def seed(db: Session = Depends(get_db)):
     stores = [db_seeder.create_store(db) for x in range (20)]
@@ -40,6 +41,6 @@ def create(store: schemas.StoreCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/stores/", response_model=list[schemas.Store])
-def index(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, db: Session = Depends(get_db)):
-    stores = crud.get_stores(db, skip=skip, limit=limit)
+def index(skip: int = 0, limit: int = 100, lat: float = 50.000000, lon: float = 5.000000, search: bool = False, db: Session = Depends(get_db)):
+    stores = crud.get_stores(db, skip=skip, limit=limit, latitude=lat, longitude=lon, search=search)
     return stores
