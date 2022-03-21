@@ -5,7 +5,7 @@ from db import Base
 from daos.store_dao import Store
 
 class CourierDAO(Base):
-    __tablename__ = 'courier'
+    __tablename__ = 'couriers'
     id = Column(Integer, primary_key=True)
     name = Column(String)
     store_id = Column(String)
