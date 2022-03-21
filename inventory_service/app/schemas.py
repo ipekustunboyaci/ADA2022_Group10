@@ -5,6 +5,7 @@ from datetime import datetime
 
 class ItemBase(BaseModel):
     reservation: datetime
+    product_id: int
 
 
 class ItemCreate(ItemBase):
@@ -23,6 +24,7 @@ class StoreBase(BaseModel):
     description: Optional[str] = None
     latitude: float
     longitude: float
+    inventory: list[Item] = []
 
 
 class StoreCreate(StoreBase):
