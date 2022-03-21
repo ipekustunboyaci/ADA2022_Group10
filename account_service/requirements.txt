@@ -5,3 +5,5 @@ gunicorn==20.1.0
 databases[postgresql]
 asyncpg
 SQLAlchemy
+psycopg2-binary
+httpx
