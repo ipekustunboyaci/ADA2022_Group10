@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  courier-service: #Flask implementation running on store database
+    build:
+      context: ./courierservice
+    depends_on:
+      - store-database
+    ports:
+      - "5003:5000"
+    environment:
+      - DB_URL=mysql+pymysql://root:@store-database/store
+      - DB_LOG=False
+    command: ["python3", "app.py"]
   store-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of store data
     build:
       context: ./store_service
