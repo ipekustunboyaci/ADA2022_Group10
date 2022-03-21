@@ -20,9 +20,9 @@ def upgrade():
     op.create_table(
         'couriers',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String()),
+        sa.Column('name', sa.String(50)),
         sa.Column('store_id', sa.Integer(), sa.ForeignKey('stores.id')),
-        sa.Column('status', sa.String())
+        sa.Column('status', sa.String(50))
     )
 
 
