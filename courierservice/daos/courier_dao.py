@@ -8,10 +8,9 @@ class CourierDAO(Base):
     __tablename__ = 'couriers'
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    store_id = Column(String)
-    # ForeignKey('stores.id'))
+    store_id = Column(String, ForeignKey('stores.id'))
     status = Column(String)
-    #status = relationship(Store.__name__, backref=backref("courier", uselist=False))
+    status = relationship(Store.__name__, backref=backref("couriers", uselist=False))
 
     def __init__(self, name, store_id, status):
         self.name = name
