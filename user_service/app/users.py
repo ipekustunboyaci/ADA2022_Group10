@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 
-from models import UserIn, UserOut, AddressIn
-import db_manager
-from db import metadata, database, engine
+from .models import UserIn, UserOut, AddressIn
+from . import db_manager
+from .db import metadata, database, engine
 
 metadata.create_all(engine)
 

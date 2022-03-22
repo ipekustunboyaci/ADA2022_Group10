@@ -1,6 +1,6 @@
 from types import CoroutineType
-from db import users, database
-from models import UserIn, AddressIn
+from .db import users, database
+from .models import UserIn, AddressIn
 
 
 async def add_user(payload: UserIn):

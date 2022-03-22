@@ -5,7 +5,6 @@ services:
       context: ./user_service
     depends_on:
       - user_db
-#    command: "gunicorn --bind 0.0.0.0:8000 -k uvicorn.workers.UvicornWorker user_service.users:app"
 #    volumes:
 #      - ./user_service/:/app/
     ports:
