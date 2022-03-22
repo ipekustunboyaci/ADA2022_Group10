@@ -20,18 +20,20 @@ services:
       context: ./courierservice
     depends_on:
       - database
+    restart: "on-failure: 5"
     ports:
       - "5003:5000"
     environment:
       - DB_URL=mysql+pymysql://root:@database/courier
       - DB_LOG=False
-    command: python3 app.py
+    command: [ "python3", "app.py" ]
 
   delivery-service: #Flask implementation running on delivery database
     build:
       context: ./deliveryservice
     depends_on:
       - database
+    restart: "on-failure: 5"
     ports:
       - "5004:5000"
     environment:

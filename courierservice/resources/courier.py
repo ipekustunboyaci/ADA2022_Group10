@@ -2,7 +2,6 @@ import datetime
 from flask import jsonify
 
 from daos.courier_dao import CourierDAO
-from daos.store_dao import Store
 from db import Session
 
 

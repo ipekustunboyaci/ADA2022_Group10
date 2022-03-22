@@ -13,7 +13,7 @@ class Delivery:
     def create(body):
         session = Session()
         delivery = DeliveryDAO(body['order_id'], datetime.strptime(body['delivery_time'], '%Y-%m-%d %H:%M:%S.%f'),
-                               body['delivery_address'], body['status'], datetime.now())
+                               body['delivery_address'], body['status'], datetime.now(), body['courier_id'])
         session.add(delivery)
         session.commit()
         session.refresh(delivery)
