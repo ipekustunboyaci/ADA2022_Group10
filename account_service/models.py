@@ -22,7 +22,8 @@ class Coordinates(BaseModel):
     lat: str
     long: str
 
-class Address(BaseModel):
+class AddressIn(BaseModel):
+    user_id: int
     street_name: str
     street_number: int
     city_name: str
