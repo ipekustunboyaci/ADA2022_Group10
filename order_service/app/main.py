@@ -16,11 +16,6 @@ def get_db():
         db.close()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 @app.get('/products/seed', response_model=list[schemas.Product])
 def seed(db: Session = Depends(get_db)):
     products = [db_seeder.create_product(db) for x in range (20)]

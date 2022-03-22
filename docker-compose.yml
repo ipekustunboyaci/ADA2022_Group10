@@ -67,7 +67,7 @@ services:
 
   product-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of product data
     build:
-      context: ./product_service
+      context: order_service
     depends_on:
       - database
     ports:
