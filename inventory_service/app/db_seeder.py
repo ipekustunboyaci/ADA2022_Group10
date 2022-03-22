@@ -1,5 +1,5 @@
 from faker import Faker
-from . import models
+from . import models, schemas
 
 from sqlalchemy.orm import Session
 
@@ -14,8 +14,8 @@ def create_inventory(db: Session, n: int):
             price=fake.random_int(min=29),
             store_id=fake.random_int(min=1, max=20)
         ) for x in range(n)]
-    db.add(db_items)
+    db.bulk_save_objects(db_items)
     db.commit()
-    db.refresh(db_items)
+
     return db_items
 

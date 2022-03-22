@@ -6,7 +6,8 @@ from datetime import datetime
 class ItemBase(BaseModel):
     count: int
     product_name: str
-    store_id: str
+    store_id: int
+    price: int
 
 
 class ItemCreate(ItemBase):
