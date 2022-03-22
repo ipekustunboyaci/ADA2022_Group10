@@ -12,7 +12,7 @@ services:
       - 8000:8000
     environment:
       - DATABASE_URL=postgresql://user_db_username:user_db_password@user_db/user_db_dev
-    command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000" ]
+    command: [ "uvicorn", "app.users:app", "--host", "0.0.0.0", "--port", "8000" ]
 
 
   user_db:
@@ -23,18 +23,6 @@ services:
       - POSTGRES_USER=user_db_username
       - POSTGRES_PASSWORD=user_db_password
       - POSTGRES_DB=user_db_dev
-
-store-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of store data
-    build:
-      context: ./store_service
-    depends_on:
-      - store-database
-    ports:
-      - "5001:80"
-    environment:
-      - DB_URL=mysql+pymysql://root:@store-database/store
-      - DB_LOG=False
-    command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80" ]
 
 volumes:
   postgres_data_user:
