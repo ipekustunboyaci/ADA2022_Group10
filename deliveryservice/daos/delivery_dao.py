@@ -6,11 +6,11 @@ from db import Base
 
 class DeliveryDAO(Base):
     __tablename__ = 'delivery'
-    id = Column(Integer, primary_key=True)  # Auto generated primary key
-    order_id = Column(String) # Foreign Key will be added, order.id
+    id = Column(Integer, primary_key=True, index=True)  # Auto generated primary key
+    order_id = Column(Integer)  # Foreign Key will be added, order.id
     delivery_time = Column(DateTime)
-    delivery_address = Column(String)
-    status = Column(String)
+    delivery_address = Column(String(255))
+    status = Column(String(255))
     status_last_update = Column(TIMESTAMP(timezone=False))
 
     def __init__(self, order_id, delivery_time, delivery_address, status, status_last_update):

@@ -4,3 +4,4 @@ numpy
 sqlalchemy
 sqlalchemy-utils
 sqlalchemy-bigquery
+pymysql

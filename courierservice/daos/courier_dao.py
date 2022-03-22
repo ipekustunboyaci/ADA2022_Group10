@@ -6,11 +6,10 @@ from daos.store_dao import Store
 
 class CourierDAO(Base):
     __tablename__ = 'couriers'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    store_id = Column(String, ForeignKey('stores.id'))
-    status = Column(String)
-    status = relationship(Store.__name__, backref=backref("couriers", uselist=False))
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255))
+    store_id = Column(Integer, ForeignKey('stores.id'))
+    status = Column(String(255))
 
     def __init__(self, name, store_id, status):
         self.name = name

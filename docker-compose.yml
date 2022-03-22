@@ -11,7 +11,19 @@ services:
     environment:
       - DB_URL=mysql+pymysql://root:@store-database/store
       - DB_LOG=False
-    command: ["python3", "app.py"]
+    command: python3 app.py
+
+  delivery-service: #Flask implementation running on sqlite database
+    build:
+      context: ./deliveryservice
+    depends_on:
+      - delivery-database
+    ports:
+      - "5004:5000"
+    environment:
+      - DB_URL=mysql+pymysql://root:@delivery-database/delivery
+      - DB_LOG=False
+    command: [ "python3", "app.py" ]
 
   store-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of store data
     build:
@@ -72,6 +84,20 @@ services:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_DATABASE=store
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+  delivery-database:
+    # we use the mysql base image, version 5.7.36
+    image: mysql:5.7.36
+    # we mount a datavolume to make sure we don't lose data
+    volumes:
+      - db_delivery_data:/var/lib/mysql
+    # setting some env vars to create the DB
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=delivery
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
 volumes:
     db_product_data:
     db_store_data:
+    db_delivery_data:
