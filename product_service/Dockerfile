@@ -8,7 +8,5 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # Copy all files in app folder
 COPY ./app /code/app
-COPY ./migrations /code/migrations
-COPY ./alembic.ini /code/alembic.ini
 
 

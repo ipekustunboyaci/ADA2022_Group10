@@ -53,25 +53,13 @@ services:
     build:
       context: ./product_service
     depends_on:
-      - product-database
+      - store-database
     ports:
       - "5000:80"
     environment:
-      - DB_URL=mysql+pymysql://root:@product-database/product
+      - DB_URL=mysql+pymysql://root:@store-database/store
       - DB_LOG=False
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
-
-  product-database:
-    # we use the mysql base image, version 5.7.36
-    image: mysql:5.7.36
-    # we mount a datavolume to make sure we don't lose data
-    volumes:
-      - db_product_data:/var/lib/mysql
-    # setting some env vars to create the DB
-    environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=product
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
 
   store-database:
     # we use the mysql base image, version 5.7.36
@@ -98,6 +86,5 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
 
 volumes:
-    db_product_data:
     db_store_data:
     db_delivery_data:
