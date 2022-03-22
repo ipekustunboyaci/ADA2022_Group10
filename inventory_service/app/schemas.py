@@ -4,8 +4,9 @@ from datetime import datetime
 
 
 class ItemBase(BaseModel):
-    reservation: datetime
-    product_id: int
+    count: int
+    product_name: str
+    store_id: str
 
 
 class ItemCreate(ItemBase):
@@ -19,20 +20,20 @@ class Item(ItemBase):
         orm_mode = True
 
 
-class StoreBase(BaseModel):
-    name: str
-    description: Optional[str] = None
-    latitude: float
-    longitude: float
-    inventory: list[Item] = []
+#class StoreBase(BaseModel):
+    #name: str
+    #description: Optional[str] = None
+    #latitude: float
+    #longitude: float
+    #inventory: list[Item] = []
 
 
-class StoreCreate(StoreBase):
-    pass
+#class StoreCreate(StoreBase):
+   # pass
 
 
-class Store(StoreBase):
-    id: int
+#class Store(StoreBase):
+    #id: int
 
-    class Config:
-        orm_mode = True
+    #class Config:
+        #orm_mode = True
