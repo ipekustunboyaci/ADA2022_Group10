@@ -2,13 +2,12 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from db import Base
-from daos.store_dao import Store
 
 class CourierDAO(Base):
     __tablename__ = 'couriers'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
-    store_id = Column(Integer, ForeignKey('stores.id'))
+    store_id = Column(Integer)
     status = Column(String(255))
 
 
