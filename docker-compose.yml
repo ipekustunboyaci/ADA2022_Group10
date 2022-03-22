@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  courier-service: #Flask implementation running on store database
+  courier-service: #Flask implementation running on courier database
     build:
       context: ./courierservice
     depends_on:
@@ -13,7 +13,7 @@ services:
       - DB_LOG=False
     command: python3 app.py
 
-  delivery-service: #Flask implementation running on sqlite database
+  delivery-service: #Flask implementation running on delivery database
     build:
       context: ./deliveryservice
     depends_on:
