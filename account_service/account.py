@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
-from models import UserIn
+from models import UserIn, UserOut
 import db_manager
 from db import metadata, database, engine
 
@@ -20,7 +20,7 @@ async def shutdown():
 async def root():
     return {"message": "Hello World"}
 
-@app.post('/', status_code=201)
+@app.post('/create_user', status_code=201)
 async def add_movie(payload: UserIn):
     something = await db_manager.add_user(payload)
     response = {
@@ -29,3 +29,10 @@ async def add_movie(payload: UserIn):
     }
 
     return response
+
+@app.get('/get_user')
+async def add_movie(user_id: int, response_model=UserOut):
+    user_data = await db_manager.get_user(user_id)
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user_data
