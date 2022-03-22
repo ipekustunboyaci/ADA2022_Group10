@@ -18,6 +18,6 @@ async def get_user(user_id):
 async def change_address(payload: AddressIn):
     query=users.update().\
        values(street_name=payload.street_name, street_number=payload.street_number, city_name=payload.city_name, country_name=payload.country_name).\
-       where(users.id == payload.user_id)
+       where(users.c.id == payload.user_id)
     return await database.execute(query=query)
 
