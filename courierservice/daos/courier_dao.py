@@ -11,6 +11,7 @@ class CourierDAO(Base):
     store_id = Column(Integer, ForeignKey('stores.id'))
     status = Column(String(255))
 
+
     def __init__(self, name, store_id, status):
         self.name = name
         self.store_id = store_id

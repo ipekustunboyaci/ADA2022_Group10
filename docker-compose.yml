@@ -1,7 +1,21 @@
+
 version: '3.8'
 
 services:
-  courier-service: #Flask implementation running on courier database
+  user_service:
+    build: 
+      context: ./user_service
+    depends_on:
+      - user_db
+#    volumes:
+#      - ./user_service/:/app/
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql://user_db_username:user_db_password@user_db/user_db_dev
+    command: [ "uvicorn", "app.users:app", "--host", "0.0.0.0", "--port", "8000" ]
+
+  courier-service: #Flask implementation running on store database
     build:
       context: ./courierservice
     depends_on:
@@ -75,6 +89,16 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
-
+      
+  user_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - postgres_data_user:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user_db_username
+      - POSTGRES_PASSWORD=user_db_password
+      - POSTGRES_DB=user_db_dev
 volumes:
     db_data:
+    postgres_data_user:
+
