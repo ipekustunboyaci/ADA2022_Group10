@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 
-def get_stores(db: Session, skip: int = 0, limit: int = 100, longitude: float = 5.000000, latitude: float = 50.000000, search: bool = False):
+def get_stores(db: Session, skip: int = 0, limit: int = 100, longitude: float = 5.000000, latitude: float = 50.000000):
     lat = [latitude - 0.01, latitude + 0.01]
     lon = [longitude - 0.02, longitude + 0.02]
     return db.query(models.Store)\
