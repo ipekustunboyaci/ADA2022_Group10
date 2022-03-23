@@ -2,6 +2,7 @@
 version: '3.8'
 
 services:
+  # 5 services handling the Account domain, Ordering domain and Shipping domain.
   user_service:
     build: 
       context: ./user_service
@@ -40,18 +41,6 @@ services:
       - DB_URL=mysql+pymysql://root:@database/delivery
       - DB_LOG=False
     command: [ "python3", "app.py" ]
-
-  store-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of store data
-    build:
-      context: ./store_service
-    depends_on:
-      - database
-    ports:
-      - "5001:80"
-    environment:
-      - DB_URL=mysql+pymysql://root:@database/store
-      - DB_LOG=False
-    command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80" ]
 
   inventory-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of inventory data
     build:
