@@ -10,11 +10,16 @@ def get_inventory(db: Session, store_id: int):
 
 def update_inventory(db:Session, store_id: int, products: dict[int, int]):
     db_order = db.query(models.Item).filter(models.Item.id.in_(products)).all()
+
+    total_price = 0
     for item in db_order:
         item.count = item.count + products[item.id]
-        if(item.count < 0):
+        total_price += item.price
+        if item.count < 0:
             raise HTTPException(status_code=400, detail="Product(s) are not available anymore")
     db.flush()
     db.commit()
-    return db_order
+
+    db_change = schemas.ItemChange(items=db_order, total_price=total_price)
+    return db_change
 

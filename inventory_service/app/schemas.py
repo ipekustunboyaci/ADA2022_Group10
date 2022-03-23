@@ -21,6 +21,11 @@ class Item(ItemBase):
         orm_mode = True
 
 
+class ItemChange(BaseModel):
+    items: list[Item]
+    total_price: int
+
+
 #class StoreBase(BaseModel):
     #name: str
     #description: Optional[str] = None
