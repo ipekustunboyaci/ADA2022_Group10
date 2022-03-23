@@ -1,7 +1,7 @@
 def closest_store(request):
     from geopy import distance
 
-    def get_store_distances():
+    def get_store_locations():
         from google.cloud import bigquery
         query = """
             SELECT *
@@ -14,7 +14,7 @@ def closest_store(request):
         stores_info_list = [{'store_id':row['store_id'], 'lat':row['lat'], 'lon':row['lon']}for row in query_job]
         return stores_info_list
 
-    stores_info_list = get_store_distances()
+    stores_info_list = get_store_locations()
     request_json = request.get_json()
     user_lat = request_json['lat']
     user_lon = request_json['lon']
