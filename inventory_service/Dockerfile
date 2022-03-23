@@ -6,7 +6,7 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 # Install required python packages
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-# Copy all files in app folder
+# Copy all files in app folder to code/app folder
 COPY ./app /code/app
 
 

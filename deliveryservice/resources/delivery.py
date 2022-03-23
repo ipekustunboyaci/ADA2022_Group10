@@ -7,7 +7,7 @@ from daos.delivery_dao import DeliveryDAO
 
 from db import Session
 
-
+# Delivery crud actions in database
 class Delivery:
     @staticmethod
     def create(body):

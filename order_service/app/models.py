@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from .db import Base
 
 
+# 2 sqlalchemy models: order and item
 class Order(Base):
     __tablename__ = "orders"
 

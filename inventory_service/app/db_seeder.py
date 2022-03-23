@@ -4,6 +4,7 @@ from . import models, schemas
 from sqlalchemy.orm import Session
 
 fake = Faker()
+# Create fake data for inventory to allow operations
 
 
 def create_inventory(db: Session, n: int):

@@ -1,4 +1,4 @@
-
+# FaaS to determine nearest store using geocoding and lon lat calculations on resulting coordinates
 def closest_store(request):
 
     from geopy import distance

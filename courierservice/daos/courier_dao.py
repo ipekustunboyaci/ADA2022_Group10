@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from db import Base
-
+# Courier data access object
 class CourierDAO(Base):
     __tablename__ = 'couriers'
     id = Column(Integer, primary_key=True, index=True)

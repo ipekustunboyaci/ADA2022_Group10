@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 
-# The database URL is provided as an env. variable
+# The database URL is provided as an env variable
 
 db_url = os.environ['DB_URL']
 

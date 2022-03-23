@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship, backref
 
 from db import Base
 
-
+# Delivery data access object
 class DeliveryDAO(Base):
     __tablename__ = 'delivery'
     id = Column(Integer, primary_key=True, index=True)  # Auto generated primary key

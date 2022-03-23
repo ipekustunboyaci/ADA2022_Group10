@@ -6,6 +6,6 @@ WORKDIR /usr/src/myapp
 COPY requirements.txt .
 # Install required python packages
 RUN pip install --no-cache-dir -r requirements.txt
-# Copy all files in training-db local host directory to /usr/src/myapp in Docker container
+# Copy all files in deliveryservice local host directory to /usr/src/myapp in Docker container
 COPY . .
 

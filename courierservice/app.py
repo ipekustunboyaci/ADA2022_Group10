@@ -8,22 +8,27 @@ app.config["DEBUG"] = True
 Base.metadata.create_all(engine)
 
 
+# Create endpoint
 @app.route('/couriers', methods=['POST'])
 def create_courier():
     req_data = request.get_json()
     return Courier.create_courier(req_data)
 
 
+# Read endpoint
 @app.route('/couriers/<c_id>', methods=['GET'])
 def get_delivery(c_id):
     return Courier.get_courier(c_id)
 
 
+# Update endpoint
 @app.route('/couriers/<c_id>/status', methods=['PUT'])
 def update_courier_status(c_id):
     status = request.args.get('status')
     return Courier.update_courier_status(c_id, status)
 
+
+# Delete endpoint
 @app.route('/couriers/<c_id>', methods=['DELETE'])
 def delete_courier(c_id):
     return Courier.delete_courier(c_id)

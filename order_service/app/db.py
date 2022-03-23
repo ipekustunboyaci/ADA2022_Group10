@@ -5,6 +5,7 @@ import os
 
 SQLALCHEMY_DATABASE_URL = os.environ['DB_URL']
 
+# Connect to database container
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )

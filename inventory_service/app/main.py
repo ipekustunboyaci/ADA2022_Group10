@@ -16,19 +16,21 @@ def get_db():
     finally:
         db.close()
 
-
+# Seeding endpoint
 @app.get("/inventory/seed", status_code=201)
 def seed(db: Session = Depends(get_db)):
     db_seeder.create_inventory(db=db, n=500)
     return {"message": "500 items successfully inserted"}
 
 
+# Updating endpoint
 @app.patch("/inventory/{store_id}", response_model=schemas.ItemChange)
 def update_inventory(products: dict[int, int], store_id: int, db: Session = Depends(get_db)):
     db_change = crud.update_inventory(db=db, store_id=store_id, products=products)
     return db_change
 
 
+# Reading endpoint
 @app.get("/inventory/{store_id}", response_model=list[schemas.Item])
 def index(store_id: int, db: Session = Depends(get_db)):
     db_inventory = crud.get_inventory(db=db, store_id=store_id)

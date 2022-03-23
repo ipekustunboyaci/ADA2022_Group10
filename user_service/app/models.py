@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
+
+# Pydantic definitions of incoming and outgoing data
 class UserIn(BaseModel):
     full_name: str
     email: str

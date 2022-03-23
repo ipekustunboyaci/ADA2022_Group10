@@ -4,7 +4,7 @@ from flask import jsonify
 from daos.courier_dao import CourierDAO
 from db import Session
 
-
+# Courier crud actions in database
 class Courier:
 
     @staticmethod

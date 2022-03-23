@@ -8,28 +8,34 @@ app.config["DEBUG"] = True
 Base.metadata.create_all(engine)
 
 
-
+# Create action of the delivery CRUD
 @app.route('/deliveries', methods=['POST'])
 def create_delivery():
     req_data = request.get_json()
     return Delivery.create(req_data)
 
 
+# Read action of the delivery CRUD
 @app.route('/deliveries/<d_id>', methods=['GET'])
 def get_delivery(d_id):
     return Delivery.get(d_id)
 
 
+# Update action of the delivery CRUD
 @app.route('/deliveries/<d_id>/status', methods=['PUT'])
 def update_delivery_status(d_id):
     status = request.args.get('status')
     return Delivery.update_delivery_status(d_id, status)
 
+
+# Other update action of the delivery CRUD
 @app.route('/deliveries/<d_id>/delivery_time', methods=['PUT'])
 def update_delivery_time(d_id):
     new_delivery_time = request.args.get('delivery_time')
     return Delivery.update_delivery_time(d_id, new_delivery_time)
 
+
+# Delete action of the delivery CRUD
 @app.route('/deliveries/<d_id>', methods=['DELETE'])
 def delete_delivery(d_id):
     return Delivery.delete(d_id)

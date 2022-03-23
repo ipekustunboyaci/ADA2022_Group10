@@ -4,10 +4,13 @@ from fastapi import HTTPException
 from . import models, schemas
 
 
+# Crud operations on the database
+# Read inventory
 def get_inventory(db: Session, store_id: int):
     return db.query(models.Item).filter(models.Item.store_id == store_id).all()
 
 
+# Update inventory
 def update_inventory(db:Session, store_id: int, products: dict[int, int]):
     db_order = db.query(models.Item).filter(models.Item.id.in_(products)).all()
 
