@@ -21,7 +21,7 @@ async def root():
     return {"message": "Hello World"}
 
 @app.post('/create_user', status_code=201)
-async def add_movie(payload: UserIn):
+async def add_user(payload: UserIn):
     something = await db_manager.add_user(payload)
     response = {
         'something': something,

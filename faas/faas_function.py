@@ -1,4 +1,4 @@
-def calc_store_distance(request):
+def closest_store(request):
     from geopy import distance
 
     def get_store_distances():
