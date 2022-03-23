@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
-from .db import SessionLocal, engine
+from . import crud, models, schemas, db_seeder
+from .db import SessionLocal, engine, Base
 
+Base.metadata.create_all(engine)
 app = FastAPI()
 
 
@@ -16,9 +17,23 @@ def get_db():
         db.close()
 
 
+@app.get("/inventory/seed", status_code=201)
+def seed(db: Session = Depends(get_db)):
+    db_seeder.create_inventory(db=db, n=500)
+    return {"message": "500 items successfully inserted"}
+
+
+@app.patch("/inventory/{store_id}", response_model=schemas.ItemChange)
+def update_inventory(products: dict[int, int], store_id: int, db: Session = Depends(get_db)):
+    db_change = crud.update_inventory(db=db, store_id=store_id, products=products)
+    return db_change
+
+
 @app.get("/inventory/{store_id}", response_model=list[schemas.Item])
-def view(store_id: int, db: Session = Depends(get_db)):
-    db_store = crud.get_store(db, store_id=store_id)
-    if db_store is None:
+def index(store_id: int, db: Session = Depends(get_db)):
+    db_inventory = crud.get_inventory(db=db, store_id=store_id)
+    if db_inventory is None:
         raise HTTPException(status_code=404, detail="Store not found")
-    return db_store.inventory
+    return db_inventory
+
+

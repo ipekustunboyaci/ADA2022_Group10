@@ -4,21 +4,21 @@ from sqlalchemy.orm import relationship
 from .db import Base
 
 
-class Store(Base):
-    __tablename__ = "stores"
+#class Store(Base):
+   # __tablename__ = "stores"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    description = Column(String)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    inventory = relationship("Item", back_populates="store")
+   # id = Column(Integer, primary_key=True, index=True)
+    #name = Column(String)
+    #description = Column(String)
+   # latitude = Column(Float)
+    #longitude = Column(Float)
+    #inventory = relationship("Item", back_populates="store")
 
 class Item(Base):
     __tablename__ = "inventory"
 
     id = Column(Integer, primary_key=True, index=True)
-    product_id = Column(Integer)
-    store_id = Column(Integer, ForeignKey('stores.id'))
-    reservation = Column(DateTime)
-    store = relationship("Store", back_populates="inventory")
+    product_name = Column(String(255))
+    store_id = Column(Integer)
+    count = Column(Integer)
+    price = Column(Integer)
