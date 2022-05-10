@@ -24,12 +24,13 @@
     {
       "endpoint": "/inventory/{store_id}",
       "method": "GET",
-      "output_encoding": "json",
+      "output_encoding": "json-collection",
       "backend": [
         {
           "url_pattern": "/inventory/{store_id}",
           "encoding": "json",
           "method": "GET",
+          "is_collection": true,
           "host": [
             "http://inventory_service_ct:80/"
           ],
