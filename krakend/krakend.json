@@ -6,7 +6,7 @@
   "port": 8081,
   "endpoints": [
     {
-      "endpoint": "/inventory/{store_id}",
+      "endpoint": "/inventory/seed",
       "method": "GET",
       "output_encoding": "json",
       "backend": [
@@ -22,33 +22,16 @@
       ]
     },
     {
-      "endpoint": "/orders/{id}",
+      "endpoint": "/inventory/{sid}",
       "method": "GET",
-      "extra_config": {
-        "proxy": {
-          "sequential": true
-        }
-      },
       "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/orders/{id}",
+          "url_pattern": "/inventory/{sid}",
           "encoding": "json",
           "method": "GET",
           "host": [
-            "http://order_record_service_ct:5000/"
-          ],
-          "disable_host_sanitize": false,
-          "mapping": {
-            "product_type": "type"
-          }
-        },
-        {
-          "url_pattern": "/products/{resp0_type}",
-          "encoding": "json",
-          "method": "GET",
-          "host": [
-            "http://inventory_service_ct:5000/"
+            "http://inventory_service_ct:80/"
           ],
           "disable_host_sanitize": false
         }
