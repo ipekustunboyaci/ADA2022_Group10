@@ -6,25 +6,16 @@
   "port": 8081,
   "endpoints": [
     {
-      "endpoint": "/ordersinventories/{producttype}/{id}",
+      "endpoint": "/inventory/{store_id}",
       "method": "GET",
       "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/orders/{id}",
+          "url_pattern": "/inventory/seed",
           "encoding": "json",
           "method": "GET",
           "host": [
-            "http://order_record_service_ct:5000/"
-          ],
-          "disable_host_sanitize": false
-        },
-        {
-          "url_pattern": "/products/{producttype}",
-          "encoding": "json",
-          "method": "GET",
-          "host": [
-            "http://inventory_service_ct:5000/"
+            "http://inventory_service_ct:5002/"
           ],
           "disable_host_sanitize": false
         }

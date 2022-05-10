@@ -4,6 +4,8 @@ services:
   api_gatway:
     image: devopsfaith/krakend:2.0.0
     container_name: api_gatway_ct
+    depends_on:
+      - inventory-service
     volumes:
       - ./krakend:/etc/krakend/
     ports:
