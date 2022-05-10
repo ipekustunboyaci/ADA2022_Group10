@@ -1,17 +1,28 @@
-
 version: '3.8'
 
 services:
+  api_gatway:
+    image: devopsfaith/krakend:2.0.0
+    container_name: api_gatway_ct
+    volumes:
+      - ./krakend:/etc/krakend/
+    depends_on:
+      - inventory_service
+      - order_record_service
+    ports:
+      - "8080:8081"
+
   # 5 services handling the Account domain, Ordering domain and Shipping domain.
   user_service:
     build: 
       context: ./user_service
+    container_name: user_service_ct
     depends_on:
       - user_db
 #    volumes:
 #      - ./user_service/:/app/
     ports:
-      - 8000:8000
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://user_db_username:user_db_password@user_db/user_db_dev
     command: [ "uvicorn", "app.users:app", "--host", "0.0.0.0", "--port", "8000" ]
@@ -19,6 +30,7 @@ services:
   courier-service: #Flask implementation running on store database
     build:
       context: ./courierservice
+    container_name: courier_service_ct
     depends_on:
       - database
     restart: "on-failure: 5"
@@ -32,6 +44,7 @@ services:
   delivery-service: #Flask implementation running on delivery database
     build:
       context: ./deliveryservice
+    container_name: delivery_service_ct
     depends_on:
       - database
     restart: "on-failure: 5"
@@ -45,6 +58,7 @@ services:
   inventory-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of inventory data
     build:
       context: ./inventory_service
+    container_name: inventory_service_ct
     depends_on:
       - database
     ports:
@@ -57,6 +71,7 @@ services:
   order-service: # Simple CRUD service which allows for the creation, reading, updating and deleting of product data
     build:
       context: ./order_service
+    container_name: order_service_ct
     depends_on:
       - database
     ports:
