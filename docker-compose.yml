@@ -6,9 +6,6 @@ services:
     container_name: api_gatway_ct
     volumes:
       - ./krakend:/etc/krakend/
-    depends_on:
-      - inventory_service
-      - order_record_service
     ports:
       - "8080:8081"
 
