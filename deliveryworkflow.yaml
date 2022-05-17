@@ -1,0 +1,54 @@
+#Delivery Approval Process
+main:
+  params: [args]
+  steps:
+    - initGetCourier:
+        assign:
+          - GetCourier: ${"http://Your_VM_IP:5000/couriers/" + string(args.courier_id)}
+    - checkCourierAvailability:
+        call: http.get
+        args:
+          url: ${GetCourier}
+        result: GetCourierRes
+    - conditionOnCourier:
+        switch:
+          - condition: ${GetCourierRes.body.status != "available" OR GetCourierRes.body.status != "Available"}
+            steps:
+              - rejectDelivery:
+                  return: ${"Couriers are not available right now, please try again later!"}
+        next: Confirm_courier
+    - Confirm_courier:
+        call: confirm_delivery_subprocess
+        args:
+          CourierID: ${args.courier_id}
+          DeliveryID: ${args.delivery_id}
+        result: output
+    - return_message:
+        return: ${output}
+
+confirm_delivery_subprocess:
+  params: [CourierID, DeliveryID]
+  steps:
+    - initUpdateCourierVar:
+        assign:
+          - UpdateCourierURL: ${"http://Your_VM_IP:5000/couriers/" + CourierID + "/status"}
+    - Update_courier_status:
+        call: http.request
+        args:
+          url: ${UpdateCourierURL}
+          method: PUT
+          query:
+            value: ${"Busy!"}
+        result: UpdateCourierRes
+    - initUpdateDeliveryVar:
+        assign:
+          - UpdateDeliveryURL: ${"http://Your_VM_IP:5000/deliveries/" + DeliveryID + "/status"}
+    - Update_delivery_status:
+        call: http.request
+        args:
+            url: ${UpdateDeliveryURL}
+            method: PUT
+            query:
+              value: ${"Delivering"}
+    - return_accept_delivery_message:
+        return: ${"The delivery with id " + string(DeliveryID)+ "is assigned to courier " + string(CourierID)}
