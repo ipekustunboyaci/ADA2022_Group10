@@ -1,10 +1,44 @@
 {
   "$schema": "http://www.krakend.io/schema/v3.json",
   "version": 3,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
   "output_encoding": "json",
   "name": "ConvenienceShopping",
   "port": 8081,
   "endpoints": [
+    {
+      "endpoint": "/user/{user_id}",
+      "method": "POST",
+      "output_encoding": "json-collection",
+      "backend": [
+        {
+          "url_pattern": "/user/{user_id}",
+          "encoding": "json",
+          "method": "POST",
+          "host": [
+            "http://user_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/user/",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/user/",
+          "encoding": "json",
+          "method": "POST",
+          "host": [
+            "http://user_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
       "endpoint": "/inventory/seed",
       "method": "GET",
@@ -33,6 +67,54 @@
           "is_collection": true,
           "host": [
             "http://inventory_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/order/{order_id}",
+      "method": "GET",
+      "output_encoding": "json-collection",
+      "backend": [
+        {
+          "url_pattern": "/order/{order_id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": [
+            "http://order_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/order/{order_id}",
+      "method": "POST",
+      "output_encoding": "json-collection",
+      "backend": [
+        {
+          "url_pattern": "/order/{order_id}",
+          "encoding": "json",
+          "method": "POST",
+          "host": [
+            "http://order_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/courier/{courier_id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/courier/{courier_id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": [
+            "http://courier_service_ct:80/"
           ],
           "disable_host_sanitize": false
         }
