@@ -2,20 +2,68 @@
 main:
   params: [args]
   steps:
+    - checkStore:
+      call: http.post
+      args:
+        url: ${"https://us-central1-ada-2022-349811.cloudfunctions.net/function-1"}
+        body:
+          lat: 10
+          lon: 10
+      result: UserStore
+    - saveUserStore:
+      assign:
+        store_id: ${UserStore.body.store_id}
     - initGetInventory:
         assign:
-          - UpdateInventory: ${"http://35.184.29.9:5002/inventory/" + string(args.store_id)}
+          - UpdateInventory: ${"http://35.184.29.9:5002/inventory/" + string(store_id)}
     - checkInventoryAvailable:
-        call: http.patch
-        args:
-          url: ${UpdateInventory}
-          body: ${args.items}
-        result: UpdatedInventory
-    - conditionOnInventory:
-        switch:
-          - condition: ${UpdatedInventory.code != 200}
+        try:
+            call: http.patch
+            args:
+              url: ${UpdateInventory}
+              body: ${args.items}
+            result: UpdatedInventory
+        except:
+            as: e
             steps:
-              - rejectDelivery:
-                  return: ${"Stock not available anymore"}
-    - return_output:
-        return: ${"Confirm_courier"}
+              - known_errors:
+                  switch:
+                    - condition: ${not ("HttpError" in e.tags)}
+                      next: connection_problem
+                    - condition: ${e.code == 400}
+                      next: rejectDelivery
+              - unhandled_exception:
+                    raise: ${e}
+    - createBody:
+        assign:
+           - map_items: []
+    - loopBody:
+        for:
+          value:  item
+          index: idx
+          in: ${UpdatedInventory.body.items}
+
+          steps:
+            - update_list_item:
+                assign:
+                  - item_mapping:
+                      product_id: ${item.id}
+                      count: ${item.count}
+            - update_list:
+                assign:
+                  - map_items: ${list.concat(map_items, item_mapping)}
+    - createOrder:
+        call: http.post
+        args:
+          url: ${"http://35.184.29.9:5000/stores/" + string(args.store_id) + "/orders"}
+          body:
+            store_id: ${args.store_id}
+            items:
+              ${map_items}
+        result: Order
+    - return_order:
+        return: ${Order.body}
+    - rejectDelivery:
+        return: "Stock not available anymore"
+    - connection_problem:
+        return: "Another error, but no Http"

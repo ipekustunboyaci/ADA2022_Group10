@@ -22,7 +22,6 @@ class Item(ItemBase):
 
 class OrderBase(BaseModel):
     store_id: int
-    total_price: Optional[int]
     status: Optional[str]
 
 
@@ -33,11 +32,13 @@ class OrderUpdate(BaseModel):
 
 class OrderCreate(OrderBase):
     items: list[ItemCreate]
+    total_price: int
 
 
 class Order(OrderBase):
     id: int
     items: list[Item]
+    total_price: int
 
     class Config:
         orm_mode = True
