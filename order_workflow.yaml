@@ -28,8 +28,7 @@ main:
         args:
           url: ${"http://35.184.29.9:5000/stores/" + string(args.store_id) + "/orders"}
           body:
-            items:
-              ${UpdatedInventory.body.items}
+            items: ${UpdatedInventory.body.items}
         result: Order
     - return_order:
         return: ${Order.body}

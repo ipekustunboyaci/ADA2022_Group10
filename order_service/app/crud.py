@@ -5,7 +5,7 @@ from . import models, schemas
 
 # Create order action, (order CRUD)
 def create_order(db: Session, order: schemas.OrderCreate):
-    db_items = [models.Item(count=item.count, stock_id=item.stock_id) for item in order.items]
+    db_items = [models.Item(count=item.count, product_id=item.product_id) for item in order.items]
     db_order = models.Order(store_id=order.store_id, items=db_items, status="pending")
     db.add(db_order)
     db.commit()

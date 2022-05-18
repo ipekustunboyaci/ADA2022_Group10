@@ -19,7 +19,7 @@ class Item(Base):
     __tablename__ = "items"
 
     id = Column(Integer, primary_key=True, index=True)
-    stock_id = Column(Integer)
+    product_id = Column(Integer)
     count = Column(Integer)
     order_id = Column(Integer, ForeignKey('orders.id'))
     order = relationship("Order")

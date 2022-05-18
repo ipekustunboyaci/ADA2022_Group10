@@ -15,7 +15,7 @@ class ItemCreate(ItemBase):
 
 
 class Item(ItemBase):
-    stock_id: int
+    id: int
 
     class Config:
         orm_mode = True
