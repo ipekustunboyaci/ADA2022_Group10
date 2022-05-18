@@ -1,9 +1,9 @@
 main:
   params: [args] # has params named: full_name, email, street_name, street_number, city_name, country_name
   steps:
-    - initCreateUser:
+    - initUpdateAddress:
         assign:
-          - CreateUser: ${"http://35.184.29.9:8080/user"}
+          - UpdateAddress: ${"http://35.184.29.9:8000/change_address"}
     - getLocationInfo:
         call: http.get
         args:
@@ -15,19 +15,19 @@ main:
     - assignCoordinates:
         assign:
           - Coordinates: ${LocationInfo.body.results[0].geometry.location}
-    - createUser:
+ 
+    - updateAddress:
         call: http.post
         args:
-          url: ${CreateUser}
+          url: ${UpdateAddress}
           body:
-            full_name: ${args.full_name}
-            email: ${args.email}
+            user_id: ${args.user_id}
             street_name: ${args.street_name}
             street_number: ${args.street_number}
             city_name: ${args.city_name}
             country_name: ${args.country_name}
             lat: ${Coordinates.lat}
-            lon: ${Coordinates.lng}
-        result: CreatedUser
+            lon: ${Coordinates.lng} 
+        result: UpdatedAddress
     - return_output:
-        return: ${CreatedUser}
+        return: ${UpdatedAddress}
