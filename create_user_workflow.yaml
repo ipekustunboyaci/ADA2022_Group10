@@ -3,12 +3,31 @@ main:
   steps:
     - initCreateUser:
         assign:
-          - CreateUser: ${"http://35.184.29.9:8000/create_user/"}
-    - checkInventoryAvailable:
+          - CreateUser: ${"http://35.184.29.9:8080/user"}
+    - getLocationInfo:
+        call: http.get
+        args:
+          url: ${"https://maps.googleapis.com/maps/api/geocode/json"}
+          query:
+            address: ${args.street_name + "%20" + args.street_number +  "%20" + args.city_name +  "%20" + args.country_name}
+            key: ${"AIzaSyBwa1cARfDVun1toFQM0q60_DMORoIzN44"}
+        result: LocationInfo
+    - assignCoordinates:
+        assign:
+          - Coordinates: ${LocationInfo.body.results[0].geometry.location}
+    - createUser:
         call: http.post
         args:
           url: ${CreateUser}
-          body: ${args}
+          body:
+            full_name: args.full_name
+            email: args.email
+            street_name: args.fulstreet_namel_name
+            street_number: args.street_number
+            city_name: args.city_name
+            country_name: args.country_name
+            lat: Coordinates.lat
+            lon: Coordinates.lon
         result: CreatedUser
     - return_output:
-        return: CreatedUser
+        return: ${CreatedUser}
