@@ -21,7 +21,7 @@ async def get_user(user_id):
 # Update
 async def change_address(payload: AddressIn):
     query=users.update().\
-       values(street_name=payload.street_name, street_number=payload.street_number, city_name=payload.city_name, country_name=payload.country_name).\
+       values(street_name=payload.street_name, street_number=payload.street_number, city_name=payload.city_name, country_name=payload.country_name, lat=payload.lat, lon=payload.lon).\
        where(users.c.id == payload.user_id)
     return await database.execute(query=query)
 

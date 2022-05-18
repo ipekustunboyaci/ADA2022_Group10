@@ -10,6 +10,8 @@ class UserIn(BaseModel):
     street_number: int
     city_name: str
     country_name: str
+    lat: float
+    lon: float
 
 class UserOut(BaseModel):
     id: str
@@ -19,10 +21,9 @@ class UserOut(BaseModel):
     street_number: int
     city_name: str
     country_name: str
+    lat: float
+    lon: float
 
-class Coordinates(BaseModel):
-    lat: str
-    long: str
 
 class AddressIn(BaseModel):
     user_id: int
@@ -30,3 +31,5 @@ class AddressIn(BaseModel):
     street_number: int
     city_name: str
     country_name: str
+    lat: float
+    lon: float
