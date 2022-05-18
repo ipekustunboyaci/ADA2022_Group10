@@ -119,6 +119,22 @@
           "disable_host_sanitize": false
         }
       ]
+    },
+    {
+      "endpoint": "/courier}",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/courier/{courier_id}",
+          "encoding": "json",
+          "method": "POST",
+          "host": [
+            "http://courier_service_ct:80/"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ]
 }
