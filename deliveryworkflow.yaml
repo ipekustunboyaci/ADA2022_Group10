@@ -39,7 +39,7 @@ confirm_delivery_subprocess:
           url: ${UpdateCourierURL}
           method: PUT
           query:
-            value: ${"Busy!"}
+            status: ${"Busy!"}
         result: UpdateCourierRes
     - initUpdateDeliveryVar:
         assign:
@@ -50,6 +50,6 @@ confirm_delivery_subprocess:
             url: ${UpdateDeliveryURL}
             method: PUT
             query:
-              value: ${"Delivering"}
+              status: ${"Delivering"}
     - return_accept_delivery_message:
-        return: ${"The delivery with id " + string(DeliveryID)+ "is assigned to courier " + string(CourierID)}
+        return: ${"The delivery with id " + string(DeliveryID)+ " is assigned to courier " + string(CourierID)}
