@@ -16,7 +16,7 @@ def update_inventory(db:Session, store_id: int, products: dict[int, int]):
 
     total_price = 0
     for item in db_order:
-        item.count = item.count + products[item.id]
+        item.count = item.count + products[item.stock_id]
         total_price += item.price
         if item.count < 0:
             raise HTTPException(status_code=400, detail="Product(s) are not available anymore")
