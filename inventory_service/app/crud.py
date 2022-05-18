@@ -12,7 +12,7 @@ def get_inventory(db: Session, store_id: int):
 
 # Update inventory
 def update_inventory(db:Session, store_id: int, products: dict[int, int]):
-    db_order = db.query(models.Item).filter(models.Item.id.in_(products)).all()
+    db_order = db.query(models.Item).filter(models.Item.stock_id.in_(products)).all()
 
     total_price = 0
     for item in db_order:
