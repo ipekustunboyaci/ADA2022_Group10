@@ -1,0 +1,14 @@
+main:
+  params: [args] # has params named: full_name, email, street_name, street_number, city_name, country_name
+  steps:
+    - initCreateUser:
+        assign:
+          - CreateUser: ${"http://35.184.29.9:8000/create_user/"}
+    - checkInventoryAvailable:
+        call: http.post
+        args:
+          url: ${CreateUser}
+          body: ${args}
+        result: CreatedUser
+    - return_output:
+        return: CreatedUser
