@@ -114,7 +114,7 @@
           "encoding": "json",
           "method": "GET",
           "host": [
-            "http://courier_service_ct:80/"
+            "http://courier_service_ct:5000/"
           ],
           "disable_host_sanitize": false
         }
@@ -130,7 +130,7 @@
           "encoding": "json",
           "method": "POST",
           "host": [
-            "http://courier_service_ct:80/"
+            "http://courier_service_ct:5000/"
           ],
           "disable_host_sanitize": false
         }
