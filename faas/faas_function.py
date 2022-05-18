@@ -25,7 +25,7 @@ def closest_store(request):
         from google.cloud import bigquery
         query = """
             SELECT *
-            FROM `faas-345008.store_coordinates.test_store_coordinates`
+            FROM `ada-2022-349811.store_coords.coords`
             """
 
         client = bigquery.Client()
