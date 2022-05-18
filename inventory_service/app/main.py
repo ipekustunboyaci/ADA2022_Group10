@@ -24,7 +24,7 @@ def seed(db: Session = Depends(get_db)):
 
 
 # Updating endpoint
-@app.patch("/inventory/{store_id}", response_model=schemas.ItemChange)
+@app.patch("/inventory/{store_id}", response_model=schemas.ItemChange, status_code=200)
 def update_inventory(products: dict[int, int], store_id: int, db: Session = Depends(get_db)):
     db_change = crud.update_inventory(db=db, store_id=store_id, products=products)
     return db_change

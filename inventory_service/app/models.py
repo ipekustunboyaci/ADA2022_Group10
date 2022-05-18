@@ -7,7 +7,7 @@ from .db import Base
 class Item(Base):
     __tablename__ = "inventory"
 
-    id = Column(Integer, primary_key=True, index=True)
+    stock_id = Column(Integer, primary_key=True, index=True)
     product_name = Column(String(255))
     store_id = Column(Integer)
     count = Column(Integer)

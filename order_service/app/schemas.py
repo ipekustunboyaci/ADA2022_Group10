@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 # A number of pydantic models to handle incoming and outcoming service data
 class ItemBase(BaseModel):
-    product_id: int
+    stock_id: int
     count: int
 
 

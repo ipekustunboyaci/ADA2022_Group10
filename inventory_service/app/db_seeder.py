@@ -13,7 +13,7 @@ def create_inventory(db: Session, n: int):
             product_name=fake.word(),
             count=fake.random_int(),
             price=fake.random_int(min=29),
-            store_id=fake.random_int(min=1, max=20)
+            store_id=fake.random_int(min=1, max=20),
         ) for x in range(n)]
     db.bulk_save_objects(db_items)
     db.commit()
