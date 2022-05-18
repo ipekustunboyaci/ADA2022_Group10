@@ -4,7 +4,7 @@ main:
   steps:
     - initGetCourier:
         assign:
-          - GetCourier: ${"http://Your_VM_IP:5000/couriers/" + string(args.courier_id)}
+          - GetCourier: ${"http://35.184.29.9:5003/couriers/" + string(args.courier_id)}
     - checkCourierAvailability:
         call: http.get
         args:
@@ -31,7 +31,7 @@ confirm_delivery_subprocess:
   steps:
     - initUpdateCourierVar:
         assign:
-          - UpdateCourierURL: ${"http://Your_VM_IP:5000/couriers/" + CourierID + "/status"}
+          - UpdateCourierURL: ${"http://35.184.29.9:5003/couriers/" + CourierID + "/status"}
     - Update_courier_status:
         call: http.request
         args:
@@ -42,7 +42,7 @@ confirm_delivery_subprocess:
         result: UpdateCourierRes
     - initUpdateDeliveryVar:
         assign:
-          - UpdateDeliveryURL: ${"http://Your_VM_IP:5000/deliveries/" + DeliveryID + "/status"}
+          - UpdateDeliveryURL: ${"http://35.184.29.9:5004/deliveries/" + DeliveryID + "/status"}
     - Update_delivery_status:
         call: http.request
         args:
