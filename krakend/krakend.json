@@ -17,7 +17,7 @@
           "encoding": "json",
           "method": "POST",
           "host": [
-            "http://user_service_ct:80/"
+            "http://user_service_ct:8000/"
           ],
           "disable_host_sanitize": false
         }
@@ -33,7 +33,7 @@
           "encoding": "json",
           "method": "POST",
           "host": [
-            "http://user_service_ct:80/"
+            "http://user_service_ct:8000/"
           ],
           "disable_host_sanitize": false
         }
