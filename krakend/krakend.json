@@ -89,16 +89,19 @@
       ]
     },
     {
-      "endpoint": "/order/{order_id}",
+      "endpoint": "/orders",
       "method": "POST",
-      "output_encoding": "json-collection",
+      "output_encoding": "json",
+	  "input_headers": [
+        "Authorization"
+        ],
       "backend": [
         {
-          "url_pattern": "/order/{order_id}",
+          "url_pattern": "/v1/projects/ada-2022-349811/locations/us-central1/workflows/order-approval/executions",
           "encoding": "json",
           "method": "POST",
           "host": [
-            "http://order_service_ct:80/"
+            "https://workflowexecutions.googleapis.com/"
           ],
           "disable_host_sanitize": false
         }
