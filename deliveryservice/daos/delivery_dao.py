@@ -12,7 +12,7 @@ class DeliveryDAO(Base):
     delivery_address = Column(String(255))
     status = Column(String(255))
     status_last_update = Column(TIMESTAMP(timezone=False))
-    courier_id = Column(Integer)
+    courier_id = Column(Integer, nullable=True)
 
     def __init__(self, order_id, delivery_time, delivery_address, status, status_last_update, courier_id):
         self.order_id = order_id

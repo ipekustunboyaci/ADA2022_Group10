@@ -4,7 +4,7 @@ main:
   steps:
     - initGetCourier:
         assign:
-          - GetCourier: ${"http://35.184.29.9:5003/couriers/" + string(args.courier_id)}
+          - GetCourier: ${"http://35.188.175.203:5003/couriers/" + string(args.courier_id)}
     - checkCourierAvailability:
         call: http.get
         args:
@@ -12,17 +12,18 @@ main:
         result: GetCourierRes
     - conditionOnCourier:
         switch:
-          - condition: ${GetCourierRes.body.status != "available" AND GetCourierRes.body.status != "Available"}
-            steps:
-              - rejectDelivery:
-                  return: ${"Couriers are not available right now, please try again later!"}
+          - condition: ${GetCourierRes.body.status != "available"}
+            next: rejectDelivery
         next: Confirm_courier
+    - rejectDelivery:
+        return: ${"Couriers are not available right now, please try again later!"}
     - Confirm_courier:
         call: confirm_delivery_subprocess
         args:
           CourierID: ${args.courier_id}
           DeliveryID: ${args.delivery_id}
         result: output
+        next: return_message
     - return_message:
         return: ${output}
 
@@ -31,7 +32,7 @@ confirm_delivery_subprocess:
   steps:
     - initUpdateCourierVar:
         assign:
-          - UpdateCourierURL: ${"http://35.184.29.9:5003/couriers/" + string(CourierID) + "/status"}
+          - UpdateCourierURL: ${"http://35.188.175.203:5003/couriers/" + string(CourierID) + "/status"}
     - Update_courier_status:
         call: http.request
         args:
@@ -42,7 +43,7 @@ confirm_delivery_subprocess:
         result: UpdateCourierRes
     - initUpdateDeliveryVar:
         assign:
-          - UpdateDeliveryURL: ${"http://35.184.29.9:5004/deliveries/" + string(DeliveryID) + "/status"}
+          - UpdateDeliveryURL: ${"http://35.188.175.203:5004/deliveries/" + string(DeliveryID) + "/status"}
     - Update_delivery_status:
         call: http.request
         args:
