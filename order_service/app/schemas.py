@@ -38,6 +38,7 @@ class OrderCreate(OrderBase):
 class Order(OrderBase):
     id: int
     items: list[Item]
+    total_price: int
 
     class Config:
         orm_mode = True
