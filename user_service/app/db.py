@@ -1,5 +1,5 @@
 from tokenize import Double
-from sqlalchemy import (Column, Integer, MetaData, String, Table, FLoat,
+from sqlalchemy import (Column, Integer, MetaData, String, Table, Float,
                         create_engine, ARRAY)
 
 from databases import Database
@@ -21,8 +21,8 @@ users = Table(
     Column('street_number', Integer),
     Column('city_name', String(50)),
     Column('country_name', String(50)),
-    Column('lat', FLoat),
-    Column('lon', FLoat)
+    Column('lat', Float),
+    Column('lon', Float)
 )
 
 database = Database(DATABASE_URL)
