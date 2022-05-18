@@ -105,12 +105,12 @@
       ]
     },
     {
-      "endpoint": "/courier/{courier_id}",
+      "endpoint": "/couriers/{courier_id}",
       "method": "GET",
       "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/courier/{courier_id}",
+          "url_pattern": "/couriers/{courier_id}",
           "encoding": "json",
           "method": "GET",
           "host": [
@@ -121,12 +121,12 @@
       ]
     },
     {
-      "endpoint": "/courier",
+      "endpoint": "/couriers",
       "method": "POST",
       "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/courier",
+          "url_pattern": "/couriers",
           "encoding": "json",
           "method": "POST",
           "host": [
