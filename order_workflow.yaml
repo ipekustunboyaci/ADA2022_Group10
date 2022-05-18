@@ -6,16 +6,34 @@ main:
         assign:
           - UpdateInventory: ${"http://35.184.29.9:5002/inventory/" + string(args.store_id)}
     - checkInventoryAvailable:
-        call: http.patch
-        args:
-          url: ${UpdateInventory}
-          body: ${args.items}
-        result: UpdatedInventory
-    - conditionOnInventory:
-        switch:
-          - condition: ${UpdatedInventory.code != 200}
+        try:
+            call: http.patch
+            args:
+              url: ${UpdateInventory}
+              body: ${args.items}
+            result: UpdatedInventory
+        except:
+            as: e
             steps:
-              - rejectDelivery:
-                  return: ${"Stock not available anymore"}
-    - return_output:
-        return: ${"Confirm_courier"}
+              - known_errors:
+                  switch:
+                    - condition: ${not ("HttpError" in e.tags)}
+                      next: connection_problem
+                    - condition: ${e.code == 400}
+                      next: rejectDelivery
+              - unhandled_exception:
+                    raise: ${e}
+    - createOrder:
+        call: http.post
+        args:
+          url: ${"http://35.184.29.9:5000/stores/" + string(args.store_id) + "/orders"}
+          body:
+            items:
+              ${UpdatedInventory.body.items}
+        result: Order
+    - return_order:
+        return: ${Order.body}
+    - rejectDelivery:
+        return: "Stock not available anymore"
+    - connection_problem:
+        return: "Another error, but no Http"
