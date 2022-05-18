@@ -121,7 +121,7 @@
       ]
     },
     {
-      "endpoint": "/courier}",
+      "endpoint": "/courier",
       "method": "POST",
       "output_encoding": "json",
       "backend": [
