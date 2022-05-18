@@ -17,39 +17,5 @@ main:
             steps:
               - rejectDelivery:
                   return: ${"Stock not available anymore"}
-        next: Confirm_courier
-    - Confirm_courier:
-        call: confirm_delivery_subprocess
-        args:
-          CourierID: ${args.courier_id}
-          DeliveryID: ${args.delivery_id}
-        result: output
-    - return_message:
-        return: ${output}
-
-confirm_delivery_subprocess:
-  params: [CourierID, DeliveryID]
-  steps:
-    - initUpdateCourierVar:
-        assign:
-          - UpdateCourierURL: ${"http://35.184.29.9:5003/couriers/" + string(CourierID) + "/status"}
-    - Update_courier_status:
-        call: http.request
-        args:
-          url: ${UpdateCourierURL}
-          method: PUT
-          query:
-            value: ${"Busy!"}
-        result: UpdateCourierRes
-    - initUpdateDeliveryVar:
-        assign:
-          - UpdateDeliveryURL: ${"http://35.184.29.9:5004/deliveries/" + string(DeliveryID) + "/status"}
-    - Update_delivery_status:
-        call: http.request
-        args:
-            url: ${UpdateDeliveryURL}
-            method: PUT
-            query:
-              value: ${"Delivering"}
-    - return_accept_delivery_message:
-        return: ${"The delivery with id " + string(DeliveryID)+ "is assigned to courier " + string(CourierID)}
+    - return_output:
+        return: ${"Confirm_courier"}
